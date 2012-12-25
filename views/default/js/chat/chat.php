@@ -2,6 +2,17 @@
 /**
  * Chat JavaScript extension for elgg.js
  */
+$user_guid = elgg_get_logged_in_user_guid();
+
+$chats = elgg_get_entities_from_relationship(array(
+			'type' => 'object',
+			'subtype' => 'chat',
+			'relationship' => 'member',
+			'relationship_guid' => $user_guid,
+			'inverse_relationship' => false,
+		));
+
+if (!empty($chats)) {
 ?>
 elgg.provide('elgg.chat');
 
@@ -102,3 +113,7 @@ elgg.ui.chatMessagesPopupHandler = function(hook, type, params, options) {
 elgg.register_hook_handler('init', 'system', elgg.chat.init);
 elgg.register_hook_handler('getOptions', 'ui.popup', elgg.ui.chatMemberPopupHandler);
 elgg.register_hook_handler('getOptions', 'ui.popup', elgg.ui.chatMessagesPopupHandler);
+
+<?php
+}
+?>
