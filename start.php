@@ -27,7 +27,20 @@ function chat_init() {
 	$chat_js = elgg_get_simplecache_url('js', 'chat/chat');
 	elgg_register_simplecache_view('js/chat/chat');
 	elgg_register_js('elgg.chat', $chat_js);
+	
+	$user_guid = elgg_get_logged_in_user_guid();
+
+	$chats = elgg_get_entities_from_relationship(array(
+			'type' => 'object',
+			'subtype' => 'chat',
+			'relationship' => 'member',
+			'relationship_guid' => $user_guid,
+			'inverse_relationship' => false,
+		));
+
+	if (!empty($chats)) {
 	elgg_load_js('elgg.chat');
+	}
 
 	// Register the chat's messaging JavaScript
 	$chat_messaging_js = elgg_get_simplecache_url('js', 'chat/messaging');
